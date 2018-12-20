@@ -1,8 +1,3 @@
-// import axios from 'axios';
-
-
-// let MyModel = require("./data/db.js")
-const url = "mongodb://localhost:27017";
 
 Vue.component('lista', {
  props: ['teksti', 'index'],
@@ -12,7 +7,6 @@ Vue.component('lista', {
 new Vue({
   el: '#app',
   created() {
-      console.log('created called.');
       this.getThings();
   },
   data() {
@@ -28,6 +22,7 @@ new Vue({
   },
 
   methods: {
+    // Tietokantaan lisäys
     addThing: function(){
       let newThing = {
         teksti: this.ostos
@@ -40,16 +35,15 @@ new Vue({
       .catch(function (error) {
         console.log(error);
       });
+      // Listan päivitys
       this.getThings();
     },
 
+    // Listan päivitys
     getThings: function(){
       axios.get("/posts")
         .then(res =>{
           this.messages = res.data;
-          // for (var i=0;i++;i<=this.messages.length) {
-          //   console.log("\nMESSAGE", this.messages[i].teksti, "\n");
-          // }
         })
         .catch(function (error) {
           console.log(error);
@@ -84,7 +78,6 @@ new Vue({
         console.log("noerrors");
         this.addThing();
         this.message.ostos = '';
-        this.getThings();
       }
     },
 
@@ -95,8 +88,6 @@ new Vue({
     },
 
    poisto(index) {
-      // this.messages.splice(index, 1);
-      // this.savetus();
       var delurl = '/posts/' + this.messages[index]._id + '/delete';
       axios.post(delurl);
       this.getThings();
